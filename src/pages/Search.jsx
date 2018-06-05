@@ -1,8 +1,15 @@
 import React, { Component } from "react";
-// import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
+import SearchFilter from "../components/Search/Filter";
+import SearchList from "../components/Search/List";
 
 export default class SearchPage extends Component {
   render() {
-    return <div>Search page</div>;
+    return (
+      <React.Fragment>
+        <SearchFilter />
+        <hr/>
+        <SearchList />
+      </React.Fragment>
+    );
   }
 }

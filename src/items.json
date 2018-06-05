@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "id": 123,
+      "name": "Cup",
+      "color": "Red",
+      "issue_date": "3/23/16",
+      "price": 123.23,
+      "raiting": 4.5,
+      "instock": 24,
+      "image": "https://placekitten.com/300/200"
+    },
+    {
+      "id": 345,
+      "name": "Spoon",
+      "color": "White",
+      "issue_date": "1/23/18",
+      "price": 123.23,
+      "raiting": 1.2,
+      "instock": 62,
+      "image": "https://placekitten.com/300/200"
+    },
+    {
+      "id": 829,
+      "name": "Pan",
+      "color": "Black",
+      "issue_date": "5/13/11",
+      "price": 45.23,
+      "raiting": 2.5,
+      "instock": 12,
+      "image": "https://placekitten.com/300/200"
+    },
+    {
+      "id": 204,
+      "name": "Kettle",
+      "color": "Blue",
+      "issue_date": "7/23/14",
+      "price": 167.52,
+      "raiting": 4.8,
+      "instock": 0,
+      "image": "https://placekitten.com/300/200"
+    },
+    {
+      "id": 565,
+      "name": "Fork",
+      "color": "Yellow",
+      "issue_date": "5/28/12",
+      "price": 195.63,
+      "raiting": 3.4,
+      "instock": 14,
+      "image": "https://placekitten.com/300/200"
+    },
+    {
+      "id": 526,
+      "name": "Knife",
+      "color": "Green",
+      "issue_date": "9/31/19",
+      "price": 23.23,
+      "raiting": 4.2,
+      "instock": 4,
+      "image": "https://placekitten.com/300/200"
+    }
+  ]
+}
