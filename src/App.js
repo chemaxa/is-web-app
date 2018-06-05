@@ -1,10 +1,7 @@
-import React, { Component } from "react";
-import bootstrap from "bootstrap";
+import React from "react";
+import Routes from "./routes";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-class App extends Component {
-  render() {
-    return null;
-  }
-}
+const App = () => <Routes />;
 
 export default App;
