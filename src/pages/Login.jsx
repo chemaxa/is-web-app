@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import fakeAuth from "../services/Auth";
-export default class Login extends Component {
+import AuthForm from "../components/AuthForm";
+
+export default class LoginPage extends Component {
   state = {
     redirectToReferrer: false
   };
@@ -23,6 +25,7 @@ export default class Login extends Component {
     return (
       <div>
         <p>You must log in to view the page at {from.pathname}</p>
+        <AuthForm />
         <button onClick={this.login}>Log in</button>
       </div>
     );

@@ -9,13 +9,18 @@ const MainLayout = ({ children }) => {
           <Navbar color="light" light expand="md">
             <Nav className="mr-auto" navbar>
               <NavItem>
-                <NavLink tag={Link} to="/public">
+                <NavLink tag={Link} to="/sign-up">
                   Sign Up
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink tag={Link} to="/protected">
+                <NavLink tag={Link} to="/login">
                   Login
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} to="/search">
+                  Search
                 </NavLink>
               </NavItem>
             </Nav>

@@ -1,7 +1,7 @@
 import React from "react";
 import fakeAuth from "../services/Auth";
 import { withRouter } from "react-router-dom";
-const AuthButton = withRouter(
+const AuthForm = withRouter(
   ({ history }) =>
     fakeAuth.isAuthenticated ? (
       <p>
@@ -19,4 +19,4 @@ const AuthButton = withRouter(
     )
 );
 
-export default AuthButton;
+export default AuthForm;

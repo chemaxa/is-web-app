@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import MainLayout from "./layouts/Main";
-import Login from "./pages/Login";
+import LoginPage from "./pages/Login";
 import fakeAuth from "./services/Auth";
-import AuthButton from "./components/AuthButton";
+import SignUpPage from "./pages/SignUp";
+import SearchPage from "./pages/Search";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -26,15 +27,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
   <Router>
     <MainLayout>
-      <AuthButton />
-      <Route path="/public" component={Public} />
-      <Route path="/login" component={Login} />
-      <PrivateRoute path="/protected" component={Protected} />
+      <Route path="/sign-up" component={SignUpPage} />
+      <Route path="/login" component={LoginPage} />
+      <PrivateRoute path="/search" component={SearchPage} />
     </MainLayout>
   </Router>
 );
-
-const Public = () => <h3>Public</h3>;
-const Protected = () => <h3>Protected</h3>;
 
 export default Routes;
