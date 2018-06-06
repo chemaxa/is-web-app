@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import fakeAuth from "../services/Auth";
+import Auth from "../services/Auth";
 import { withRouter, Redirect } from "react-router-dom";
 import {
   Button,
@@ -13,6 +13,11 @@ import {
   Row
 } from "reactstrap";
 
+// const LoginToMyApp = values => {
+//   console.log(values);
+//   return Promise.resolve("success");
+// };
+
 class AuthForm extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +30,7 @@ class AuthForm extends Component {
   }
 
   login = () => {
-    fakeAuth.authenticate(() => {
+    Auth.authenticate().then(() => {
       this.setState({ redirectToReferrer: true });
     });
   };
@@ -74,12 +79,12 @@ class AuthForm extends Component {
       return <Redirect to={this.from} />;
     }
 
-    return fakeAuth.isAuthenticated ? (
+    return Auth.isAuthenticated ? (
       <p>
         Welcome!{" "}
         <button
           onClick={() => {
-            fakeAuth.signout(() => this.props.history.push("/"));
+            Auth.signout().then(() => this.props.history.push("/"));
           }}
         >
           Sign out

@@ -13,12 +13,7 @@ import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
 import { signUp as signUpMessages } from "../messages.json";
 import { withFormik } from "formik";
-import fakeAuth from "../services/Auth";
-
-const LoginToMyApp = values => {
-  console.log(values);
-  return Promise.resolve("success");
-};
+import Auth from "../services/Auth";
 
 const transformMyApiErrors = errors => {
   console.error(errors);
@@ -125,14 +120,15 @@ export default withFormik({
       setErrors /* setValues, setStatus, and other goodies */
     }
   ) => {
-    LoginToMyApp(values).then(
+    Auth.signUp(values).then(
       user => {
-        setSubmitting(false);
+        console.log(user);
+        // setSubmitting(false);
         // do whatevs...
         // props.updateUser(user)
       },
       errors => {
-        setSubmitting(false);
+        // setSubmitting(false);
         // Maybe even transform your API's errors into the same shape as Formik's!
         setErrors(transformMyApiErrors(errors));
       }

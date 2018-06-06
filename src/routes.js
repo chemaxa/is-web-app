@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import MainLayout from "./layouts/Main";
 import LoginPage from "./pages/Login";
-import fakeAuth from "./services/Auth";
+import Auth from "./services/Auth";
 import SignUpPage from "./pages/SignUp";
 import SearchPage from "./pages/Search";
 
@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      fakeAuth.isAuthenticated ? (
+      Auth.isAuthenticated ? (
         <Component {...props} />
       ) : (
         <Redirect
