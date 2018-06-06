@@ -1,0 +1,17 @@
+{
+  "signUp": {
+    "email": {
+      "empty": "Please check email, email shouldnt be empty",
+      "format": "Please check email, email should have @"
+    },
+    "password": "Please check the password field, passwords should be same and not epmty"
+  },
+  "login": {
+    "email": "Please check email, email shouldnt be empty",
+    "password": "Please check the password field, password should not be empty",
+    "authFailure": "Sorry, user with these credentials is not exist"
+  },
+  "search": {
+    "notFound": "Sorry, not found products"
+  }
+}
