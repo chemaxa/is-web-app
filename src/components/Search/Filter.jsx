@@ -3,16 +3,12 @@ import DatePicker from "react-datepicker";
 import moment from "moment";
 import {
   CustomInput,
-  Button,
   Form,
   FormGroup,
   Label,
   Input,
-  FormText,
   Row,
-  Col,
-  InputGroup,
-  InputGroupAddon
+  Col
 } from "reactstrap";
 
 export default class SearchFilter extends Component {
