@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      Auth.isAuthenticated ? (
+      Auth.isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -27,7 +27,15 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
   <Router>
     <MainLayout>
-      <Route exact path="/" component={SignUpPage} />
+      <Route
+        exact
+        path="/"
+        component={
+          Auth.isAuthenticated()
+            ? () => <Redirect to={{ pathname: "/search" }} />
+            : SignUpPage
+        }
+      />
       <Route path="/sign-up" component={SignUpPage} />
       <Route path="/login" component={LoginPage} />
       <PrivateRoute path="/search" component={SearchPage} />

@@ -1,31 +1,43 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavLink } from "reactstrap";
-const Menu = () => (
-  <Navbar color="light" light expand="md">
-    <Nav className="mr-auto" navbar>
-      <NavItem>
-        <NavLink tag={Link} to="/sign-up">
-          Sign Up
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink tag={Link} to="/login">
-          Login
-        </NavLink>
-      </NavItem>
-      <NavItem>
-        <NavLink tag={Link} to="/search">
-          Search
-        </NavLink>
-      </NavItem>
-    </Nav>
-    <Nav className="ml-auto" navbar>
-      <NavItem>
-        <NavLink href="#">Cart 3</NavLink>
-      </NavItem>
-    </Nav>
-  </Navbar>
-);
+import Auth from "../services/Auth";
+const Menu = ({ history }) => {
+  const signOut = () => {
+    Auth.signOut();
+    history.push("/");
+  };
 
-export default Menu;
+  return (
+    <Navbar color="light" light expand="md">
+      <Nav className="mr-auto" navbar>
+        {!Auth.isAuthenticated() && (
+          <NavItem>
+            <NavLink tag={Link} to="/sign-up">
+              Sign Up
+            </NavLink>
+          </NavItem>
+        )}
+        <NavItem>
+          <NavLink tag={Link} to={Auth.isAuthenticated() ? "#" : "/login"}>
+            {Auth.getUser() || "Login"}
+          </NavLink>
+        </NavItem>
+      </Nav>
+      {Auth.isAuthenticated() && (
+        <Nav className="ml-auto" navbar>
+          <NavItem>
+            <NavLink href="#" onClick={signOut}>
+              Sign Out
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink href="#">Cart 3</NavLink>
+          </NavItem>
+        </Nav>
+      )}
+    </Navbar>
+  );
+};
+
+export default withRouter(Menu);

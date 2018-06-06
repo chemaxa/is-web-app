@@ -1,6 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import Auth from "../services/Auth";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { withFormik } from "formik";
+import { login as loginMessages } from "../messages.json";
+import isEmail from "validator/lib/isEmail";
 import {
   Button,
   Form,
@@ -8,91 +11,96 @@ import {
   Label,
   Input,
   FormFeedback,
-  FormText,
   Col,
-  Row
+  Row,
+  UncontrolledAlert
 } from "reactstrap";
 
-// const LoginToMyApp = values => {
-//   console.log(values);
-//   return Promise.resolve("success");
-// };
-
-class AuthForm extends Component {
-  constructor(props) {
-    super(props);
-    this.from = this.props.location.state
-      ? this.props.location.state.from
-      : { from: { pathname: "/" } };
-    this.state = {
-      redirectToReferrer: false
-    };
-  }
-
-  login = () => {
-    Auth.authenticate().then(() => {
-      this.setState({ redirectToReferrer: true });
-    });
-  };
-
-  renderForm() {
-    return (
-      <Row className="justify-content-center mt-1">
-        <Col md="6">
-          <p>You must log in to view the page at {this.from.pathname}</p>
-          <Form>
-            <FormGroup>
-              <Label for="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter your email"
-              />
-              <FormFeedback>You will not be able to see this</FormFeedback>
-              <FormText>Example help text that remains unchanged.</FormText>
-            </FormGroup>
-            <FormGroup>
-              <Label for="password">Password</Label>
-              <Input
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                id="password"
-                valid
-              />
-              <FormFeedback valid>
-                You will not be able to see this
-              </FormFeedback>
-              <FormText>Example help text that remains unchanged.</FormText>
-            </FormGroup>
-            <Button onClick={this.login}>Submit</Button>
-          </Form>
-        </Col>
-      </Row>
-    );
-  }
-  render() {
-    const { redirectToReferrer } = this.state;
-
-    if (redirectToReferrer) {
-      return <Redirect to={this.from} />;
+const AuthForm = ({
+  values,
+  errors,
+  touched,
+  handleChange,
+  handleSubmit,
+  isSubmitting
+}) => {
+  return (
+    <Row className="justify-content-center mt-1">
+      <Col md="6">
+        <Form onSubmit={handleSubmit} noValidate>
+          {errors.authFailure && (
+            <UncontrolledAlert color="info">
+              {errors.authFailure}
+            </UncontrolledAlert>
+          )}
+          <FormGroup>
+            <Label for="email">Email</Label>
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Enter your email"
+              {...(touched.email && errors.email
+                ? { valid: false, invalid: true }
+                : {})}
+              onChange={handleChange}
+              value={values.email}
+            />
+            {touched.email &&
+              errors.email && <FormFeedback>{errors.email}</FormFeedback>}
+          </FormGroup>
+          <FormGroup>
+            <Label for="password">Password</Label>
+            <Input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              id="password"
+              {...(touched.password && errors.password
+                ? { valid: false, invalid: true }
+                : {})}
+              onChange={handleChange}
+              value={values.password}
+            />
+            {touched.password &&
+              errors.password && <FormFeedback>{errors.password}</FormFeedback>}
+          </FormGroup>
+          <Button type="submit" disabled={isSubmitting}>
+            Submit
+          </Button>
+        </Form>
+      </Col>
+    </Row>
+  );
+};
+const formOptions = {
+  // Transform outer props into form values
+  mapPropsToValues: props => ({ email: "", password: "" }),
+  // Add a custom validation function (this can be async too!)
+  validate: (values, props) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = loginMessages.email.empty;
+    } else if (!isEmail(values.email)) {
+      errors.email = loginMessages.email.format;
+    } else if (!values.password) {
+      errors.password = loginMessages.password;
     }
-
-    return Auth.isAuthenticated ? (
-      <p>
-        Welcome!{" "}
-        <button
-          onClick={() => {
-            Auth.signout().then(() => this.props.history.push("/"));
-          }}
-        >
-          Sign out
-        </button>
-      </p>
-    ) : (
-      this.renderForm()
+    return errors;
+  },
+  // Submission handler
+  handleSubmit: (values, { props: { history }, setSubmitting, setErrors }) => {
+    Auth.authenticate(values).then(
+      user => {
+        history.push("/search");
+      },
+      errors => {
+        setErrors({
+          authFailure: loginMessages.authFailure
+        });
+      }
     );
   }
-}
-export default withRouter(AuthForm);
+};
+
+export default withRouter(withFormik(formOptions)(AuthForm));

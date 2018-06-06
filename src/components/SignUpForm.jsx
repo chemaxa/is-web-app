@@ -9,16 +9,12 @@ import {
   Col,
   Row
 } from "reactstrap";
+import { withRouter } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
 import { signUp as signUpMessages } from "../messages.json";
 import { withFormik } from "formik";
 import Auth from "../services/Auth";
-
-const transformMyApiErrors = errors => {
-  console.error(errors);
-  return Promise.resolve("errors");
-};
 
 const SignUpForm = ({
   values,
@@ -88,8 +84,7 @@ const SignUpForm = ({
     </Row>
   );
 };
-
-export default withFormik({
+const formikOptions = {
   // Transform outer props into form values
   mapPropsToValues: props => ({
     email: "",
@@ -112,26 +107,15 @@ export default withFormik({
     return errors;
   },
   // Submission handler
-  handleSubmit: (
-    values,
-    {
-      props,
-      setSubmitting,
-      setErrors /* setValues, setStatus, and other goodies */
-    }
-  ) => {
+  handleSubmit: (values, { props: { history }, setSubmitting, setErrors }) => {
     Auth.signUp(values).then(
       user => {
-        console.log(user);
-        // setSubmitting(false);
-        // do whatevs...
-        // props.updateUser(user)
+        history.push("/search");
       },
       errors => {
-        // setSubmitting(false);
-        // Maybe even transform your API's errors into the same shape as Formik's!
-        setErrors(transformMyApiErrors(errors));
+        setErrors(errors);
       }
     );
   }
-})(SignUpForm);
+};
+export default withRouter(withFormik(formikOptions)(SignUpForm));

@@ -1,7 +1,14 @@
 import Storage from "./Storage";
+
 const storage = new Storage();
+let isAuthenticated = false;
+
+try {
+  const { user } = storage.read();
+  isAuthenticated = Boolean(user);
+} catch (e) {}
+
 const Auth = {
-  isAuthenticated: false,
   hashCode: s => {
     return s.split("").reduce((a, b) => {
       a = (a << 5) - a + b.charCodeAt(0);
@@ -10,7 +17,7 @@ const Auth = {
   },
   signUp: function(credentials) {
     return new Promise((res, rej) => {
-      this.isAuthenticated = true;
+      isAuthenticated = true;
       storage.save({
         user: credentials.email,
         passwordHash: this.hashCode(credentials.password)
@@ -20,21 +27,33 @@ const Auth = {
   },
   authenticate: function(credentials) {
     return new Promise((res, rej) => {
-      const data = storage.read();
-      if (data.passwordHash === this.hashCode(credentials.password)) {
-        this.isAuthenticated = true;
+      const { user, passwordHash } = storage.read();
+      if (
+        user === credentials.email &&
+        passwordHash === this.hashCode(credentials.password)
+      ) {
+        isAuthenticated = true;
       } else {
         setTimeout(rej, 100, {
           error: "Wrong credentials"
         }); // fake async
       }
-      console.log(data);
-      setTimeout(res, 100); // fake async
+      setTimeout(res, 100, { user }); // fake async
     });
   },
-  signout: function() {
+
+  getUser: function() {
+    if (isAuthenticated) {
+      const { user } = storage.read();
+      return user;
+    } else {
+      return null;
+    }
+  },
+  isAuthenticated: () => isAuthenticated,
+  signOut: function() {
     return new Promise((res, rej) => {
-      this.isAuthenticated = false;
+      isAuthenticated = false;
       storage.clear();
       setTimeout(res, 100); // fake async
     });
