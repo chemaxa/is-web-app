@@ -41,7 +41,6 @@ const Auth = {
       setTimeout(res, 100, { user }); // fake async
     });
   },
-
   getUser: function() {
     if (isAuthenticated) {
       const { user } = storage.read();
@@ -50,6 +49,7 @@ const Auth = {
       return null;
     }
   },
+  
   isAuthenticated: () => isAuthenticated,
   signOut: function() {
     return new Promise((res, rej) => {

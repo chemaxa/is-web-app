@@ -1,8 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import SignUpForm from "../components/SignUpForm";
 
-export default class SignUpPage extends Component {
-  render() {
-    return <SignUpForm />;
-  }
-}
+const SignUpPage = () => <SignUpForm />;
+
+export default SignUpPage;

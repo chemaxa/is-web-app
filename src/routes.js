@@ -1,28 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import PrivateRoute from "./hocs/PrivateRoute";
+import Auth from "./services/Auth";
+
 import MainLayout from "./layouts/Main";
 import LoginPage from "./pages/Login";
-import Auth from "./services/Auth";
 import SignUpPage from "./pages/SignUp";
 import SearchPage from "./pages/Search";
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      Auth.isAuthenticated() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-);
 
 const Routes = () => (
   <Router>
