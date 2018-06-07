@@ -2,7 +2,7 @@ import React from "react";
 import Auth from "../services/Auth";
 import { withRouter } from "react-router-dom";
 import { withFormik } from "formik";
-import { login as loginMessages } from "../messages.json";
+import { login as loginMessages } from "../resource/messages.json";
 import isEmail from "validator/lib/isEmail";
 import {
   Button,

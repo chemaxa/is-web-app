@@ -12,7 +12,7 @@ import {
 import { withRouter } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import equals from "validator/lib/equals";
-import { signUp as signUpMessages } from "../messages.json";
+import { signUp as signUpMessages } from "../resource/messages.json";
 import { withFormik } from "formik";
 import Auth from "../services/Auth";
 
