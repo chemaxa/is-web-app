@@ -110,7 +110,7 @@ const formikOptions = {
   handleSubmit: (values, { props: { history }, setSubmitting, setErrors }) => {
     Auth.signUp(values).then(
       user => {
-        history.push("/search");
+        history.push(process.env.PUBLIC_URL + "/search");
       },
       errors => {
         setErrors(errors);

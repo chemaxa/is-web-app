@@ -5,7 +5,7 @@ import Auth from "../services/Auth";
 const Menu = ({ history, location }) => {
   const signOut = () => {
     Auth.signOut();
-    history.push("/");
+    history.push(process.env.PUBLIC_URL + "/");
   };
 
   return (

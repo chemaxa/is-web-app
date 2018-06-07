@@ -92,7 +92,7 @@ const formOptions = {
   handleSubmit: (values, { props: { history }, setSubmitting, setErrors }) => {
     Auth.authenticate(values).then(
       user => {
-        history.push("/search");
+        history.push(process.env.PUBLIC_URL + "/search");
       },
       errors => {
         setErrors({
