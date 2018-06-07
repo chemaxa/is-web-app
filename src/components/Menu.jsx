@@ -13,13 +13,18 @@ const Menu = ({ history, location }) => {
       <Nav className="mr-auto" navbar>
         {!Auth.isAuthenticated() && (
           <NavItem>
-            <NavLink tag={Link} to="/sign-up">
+            <NavLink tag={Link} to={process.env.PUBLIC_URL + "/sign-up"}>
               Sign Up
             </NavLink>
           </NavItem>
         )}
         <NavItem>
-          <NavLink tag={Link} to={Auth.isAuthenticated() ? "#" : "/login"}>
+          <NavLink
+            tag={Link}
+            to={
+              Auth.isAuthenticated() ? "#" : `${process.env.PUBLIC_URL}/login`
+            }
+          >
             {Auth.getUser() || "Login"}
           </NavLink>
         </NavItem>
