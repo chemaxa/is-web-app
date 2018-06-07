@@ -13,16 +13,26 @@ const Routes = () => (
     <MainLayout>
       <Route
         exact
-        path="/"
+        path={process.env.PUBLIC_URL + "/"}
         component={
           Auth.isAuthenticated()
-            ? () => <Redirect to={{ pathname: "/search" }} />
+            ? () => (
+                <Redirect
+                  to={{ pathname: process.env.PUBLIC_URL + "/search" }}
+                />
+              )
             : SignUpPage
         }
       />
-      <Route path="/sign-up" component={SignUpPage} />
-      <Route path="/login" component={LoginPage} />
-      <PrivateRoute path="/search" component={SearchPage} />
+      <Route
+        path={process.env.PUBLIC_URL + "/sign-up"}
+        component={SignUpPage}
+      />
+      <Route path={process.env.PUBLIC_URL + "/login"} component={LoginPage} />
+      <PrivateRoute
+        path={process.env.PUBLIC_URL + "/search"}
+        component={SearchPage}
+      />
     </MainLayout>
   </Router>
 );
