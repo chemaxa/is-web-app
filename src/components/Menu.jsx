@@ -48,7 +48,7 @@ const Menu = ({ history, location }) => {
                 });
               }}
             >
-              Cart 3
+              Cart
             </NavLink>
           </NavItem>
         </Nav>
