@@ -16,7 +16,9 @@ const SearchItem = ({ item }) => {
         <Row>
           <Col>Name: {item.name}</Col>
           <Col>Issue date: {item.issue_date}</Col>
-          <Col>Price: {item.price}</Col>
+          <Col>
+            <h4>Price: {item.price}</h4>
+          </Col>
         </Row>
         <Row>
           <Col>Color: {item.color}</Col>

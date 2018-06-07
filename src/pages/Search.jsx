@@ -4,54 +4,82 @@ import SearchList from "../components/Search/List";
 import data from "../resource/items.json";
 import moment from "moment";
 export default class SearchPage extends Component {
-  state = {
-    filters: {
-      startDate: moment(),
-      endDate: moment(),
-      priceFrom: "",
-      priceTo: "",
-      color: "",
-      inStock: false
-    }
-  };
+  constructor() {
+    super();
+    const moments = data.items.map(i => moment(i.issue_date, "MM/DD/YY"));
+    const prices = data.items.map(i => i.price);
+    this.state = {
+      items: data.items,
+      filters: {
+        startDate: moment.min(moments),
+        endDate: moment.max(moments),
+        priceFrom: Math.min.apply(null, prices),
+        priceTo: Math.max.apply(null, prices),
+        color: "",
+        inStock: false
+      }
+    };
+  }
 
   handleChange = event => {
     const target = event.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     const name = target.name;
-    const { filters } = this.state;
-    this.setState({
-      filters: {
-        ...filters,
-        [name]: value
-      }
+    this.filterItems({
+      [name]: value
     });
   };
 
   handleChangeStartDate = date => {
-    console.log(date.format());
-    const { filters } = this.state;
-    this.setState({
-      filters: {
-        ...filters,
-        startDate: date
-      }
+    this.filterItems({
+      startDate: date
     });
   };
 
   handleChangeEndDate = date => {
-    console.log(date.format());
-    const { filters } = this.state;
+    this.filterItems({
+      endDate: date
+    });
+  };
+
+  filterItems = filterParams => {
+    const filters = {
+      ...this.state.filters,
+      ...filterParams
+    };
+    const newItems = data.items
+      .filter(i => {
+        return (
+          (filters.priceFrom < i.price && i.price < filters.priceTo) ||
+          (!filters.priceFrom && !filters.priceTo)
+        );
+      })
+      .filter(i => {
+        return (filters.inStock && i.instock > 0) || !filters.inStock;
+      })
+      .filter(i => {
+        return (
+          (filters.color &&
+            filters.color.toLowerCase() === i.color.toLowerCase()) ||
+          !filters.color
+        );
+      })
+      .filter(i => {
+        return moment(i.issue_date, "MM/DD/YY").isBetween(
+          filters.startDate,
+          filters.endDate
+        );
+      });
+
     this.setState({
-      filters: {
-        ...filters,
-        endDate: date
-      }
+      items: newItems,
+      filters
     });
   };
 
   clearFilter = () => {
     this.setState({
+      items: data.items,
       filters: {
         startDate: moment(),
         endDate: moment(),
@@ -75,7 +103,7 @@ export default class SearchPage extends Component {
           values={{ ...this.state.filters }}
         />
         <hr />
-        <SearchList items={data.items} />
+        <SearchList items={this.state.items} />
       </React.Fragment>
     );
   }
