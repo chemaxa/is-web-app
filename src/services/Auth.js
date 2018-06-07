@@ -54,7 +54,6 @@ const Auth = {
   signOut: function() {
     return new Promise((res, rej) => {
       isAuthenticated = false;
-      storage.clear();
       setTimeout(res, 100); // fake async
     });
   }
