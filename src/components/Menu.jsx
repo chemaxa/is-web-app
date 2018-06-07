@@ -2,7 +2,7 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Navbar, Nav, NavItem, NavLink } from "reactstrap";
 import Auth from "../services/Auth";
-const Menu = ({ history }) => {
+const Menu = ({ history, location }) => {
   const signOut = () => {
     Auth.signOut();
     history.push("/");
@@ -32,7 +32,19 @@ const Menu = ({ history }) => {
             </NavLink>
           </NavItem>
           <NavItem>
-            <NavLink href="#">Cart 3</NavLink>
+            <NavLink
+              href="#"
+              onClick={() => {
+                history.push({
+                  pathname: location.pathname,
+                  state: {
+                    isOpenModal: true
+                  }
+                });
+              }}
+            >
+              Cart 3
+            </NavLink>
           </NavItem>
         </Nav>
       )}

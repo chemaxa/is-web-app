@@ -1,7 +1,7 @@
 import React from "react";
 import { Media, Button, Row, Col } from "reactstrap";
 import "./search.css";
-const SearchItem = ({ item }) => {
+const SearchItem = ({ item, addToCart, removeFromCart }) => {
   return (
     <Media className="search__item rounded">
       <Media left href="#">
@@ -24,7 +24,16 @@ const SearchItem = ({ item }) => {
           <Col>Color: {item.color}</Col>
           <Col>In stock: {item.instock}</Col>
           <Col>
-            <Button>Order</Button>
+            {addToCart && (
+              <Button color="primary" onClick={addToCart.bind(null, item)}>
+                Buy
+              </Button>
+            )}{" "}
+            {removeFromCart && (
+              <Button color="danger" onClick={removeFromCart.bind(null, item)}>
+                Remove
+              </Button>
+            )}
           </Col>
         </Row>
       </Media>

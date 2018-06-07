@@ -1,15 +1,19 @@
 import React, { Component } from "react";
 import SearchFilter from "../components/Search/Filter";
 import SearchList from "../components/Search/List";
+import Cart from "../components/Cart";
 import data from "../resource/items.json";
 import moment from "moment";
-export default class SearchPage extends Component {
+import { withRouter } from "react-router-dom";
+class SearchPage extends Component {
   constructor() {
     super();
     const moments = data.items.map(i => moment(i.issue_date, "MM/DD/YY"));
     const prices = data.items.map(i => i.price);
     this.state = {
       items: data.items,
+      cartItems: [],
+      isOpenModal: false,
       filters: {
         startDate: moment.min(moments),
         endDate: moment.max(moments),
@@ -20,6 +24,28 @@ export default class SearchPage extends Component {
       }
     };
   }
+
+  componentWillReceiveProps(nextProps) {
+    const { isOpenModal } = nextProps.location.state;
+    this.setState({
+      isOpenModal
+    });
+  }
+
+  addToCart = item => {
+    const { cartItems } = this.state;
+    cartItems.push(item);
+    this.setState({
+      cartItems
+    });
+  };
+
+  removeFromCart = item => {
+    const { cartItems } = this.state;
+    this.setState({
+      cartItems: cartItems.filter(i => i.id !== item.id)
+    });
+  };
 
   handleChange = event => {
     const target = event.target;
@@ -78,8 +104,10 @@ export default class SearchPage extends Component {
   };
 
   clearFilter = () => {
+    const { cartItems } = this.state;
     this.setState({
       items: data.items,
+      cartItems,
       filters: {
         startDate: moment(),
         endDate: moment(),
@@ -87,6 +115,20 @@ export default class SearchPage extends Component {
         priceTo: "",
         color: "",
         inStock: false
+      }
+    });
+  };
+
+  toggle = () => {
+    const { isOpenModal } = this.state;
+    const { history, location } = this.props;
+    this.setState({
+      isOpenModal: !isOpenModal
+    });
+    history.push({
+      pathname: location.pathname,
+      state: {
+        isOpenModal: !isOpenModal
       }
     });
   };
@@ -103,8 +145,21 @@ export default class SearchPage extends Component {
           values={{ ...this.state.filters }}
         />
         <hr />
-        <SearchList items={this.state.items} />
+        <SearchList
+          items={this.state.items}
+          addToCart={this.addToCart}
+          removeFromCart={this.removeFromCart}
+        />
+        <Cart
+          items={this.state.cartItems}
+          isOpen={this.state.isOpenModal}
+          toggle={this.toggle}
+          addToCart={this.addToCart}
+          removeFromCart={this.removeFromCart}
+        />
       </React.Fragment>
     );
   }
 }
+
+export default withRouter(SearchPage);
