@@ -1,0 +1,12 @@
+.search__item {
+  padding: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.search__item .media-left {
+  padding-right: 10px;
+}
+
+.search__item {
+  margin-bottom: 20px;
+}
