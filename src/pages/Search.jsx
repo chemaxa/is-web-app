@@ -26,6 +26,7 @@ class SearchPage extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (!nextProps.location.state) return;
     const { isOpenModal } = nextProps.location.state;
     this.setState({
       isOpenModal
